@@ -1,12 +1,13 @@
-# Technical Test - Waizly - Frontend Developer
+# Technical Test - Try Fanny Poerna Maulana - Frontend Developer
 
-React TO DO APP
+Waizly - React TO DO APP
 
 ## Functionality
 
 - Add task
 - Edit task
-- Delete Task
+- Delete task
+- Search bar
 
 ## Dependencies
 

@@ -1,4 +1,4 @@
-const AddTaskForm = ({ newTask, setNewTask, addTask }) => {
+const AddTaskForm = ({ newTask, setNewTask, addTask, searchTask, toDo }) => {
   return(
     <>
       {/* Add Task */}
@@ -18,6 +18,22 @@ const AddTaskForm = ({ newTask, setNewTask, addTask }) => {
         </div>
       </div>
       <br />
+      {/* Search Bar */}
+      {toDo.length > 0 && (
+        <>
+          <div style={{display: "flex", justifyContent: "center"}}>
+            <div className="w-25">
+              <input 
+                type="search"
+                placeholder="Search"
+                onChange={searchTask}
+                className="form-control form-control-md"
+              />
+            </div>
+          </div>
+          <br />
+        </>
+      )}
     </>
   )
 }

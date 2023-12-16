@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import AddTaskForm from './components/AddTaskForm.jsx';
 import UpdateForm from './components/UpdateForm.jsx';
 import ToDo from './components/ToDo.jsx';
@@ -19,26 +19,41 @@ function App() {
   // Add task 
   ///////////////////////////
   const addTask = () => {
-    if(newTask) {
-      let num = toDo.length + 1; 
+    if (newTask) {
+      let num = toDo.length + 1;
       let newEntry = { id: num, title: newTask, status: false }
       setToDo([...toDo, newEntry])
       setNewTask('');
     }
   }
 
+  // Search task
+  ///////////////////////////
+  const searchTask = (event) => {
+    // Access input value
+    const query = event.target.value;
+    // Create copy of item list
+    var updatedList = [...toDo];
+    // Include all elements which includes the search query
+    updatedList = updatedList.filter((item) => {
+      return item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    });
+    // Trigger render with updated values
+    setToDo(updatedList);
+  }
+
   // Delete task 
   ///////////////////////////
   const deleteTask = (id) => {
-    let newTasks = toDo.filter( task => task.id !== id)
+    let newTasks = toDo.filter(task => task.id !== id)
     setToDo(newTasks);
   }
 
   // Mark task as done or completed
   ///////////////////////////
   const markDone = (id) => {
-    let newTask = toDo.map( task => {
-      if( task.id === id ) {
+    let newTask = toDo.map(task => {
+      if (task.id === id) {
         return ({ ...task, status: !task.status })
       }
       return task;
@@ -66,7 +81,7 @@ function App() {
   // Update task
   ///////////////////////////
   const updateTask = () => {
-    let filterRecords = [...toDo].filter( task => task.id !== updateData.id );
+    let filterRecords = [...toDo].filter(task => task.id !== updateData.id);
     let updatedObject = [...filterRecords, updateData]
     setToDo(updatedObject);
     setUpdateData('');
@@ -75,35 +90,37 @@ function App() {
   return (
     <div className="container App">
 
-    <br /><br />
-    <h2>To Do List App (ReactJS)</h2>
-    <br /><br />
+      <br /><br />
+      <h2>To Do List App (ReactJS)</h2>
+      <br /><br />
 
-    {updateData && updateData ? (
-      <UpdateForm 
-        updateData={updateData}
-        changeTask={changeTask}
-        updateTask={updateTask}
-        cancelUpdate={cancelUpdate}
+      {updateData && updateData ? (
+        <UpdateForm
+          updateData={updateData}
+          changeTask={changeTask}
+          updateTask={updateTask}
+          cancelUpdate={cancelUpdate}
+        />
+      ) : (
+        <AddTaskForm
+          newTask={newTask}
+          setNewTask={setNewTask}
+          addTask={addTask}
+          searchTask={searchTask}
+          toDo={toDo}
+        />
+      )}
+
+      {/* Display ToDos */}
+
+      {toDo && toDo.length ? '' : 'No Tasks...'}
+
+      <ToDo
+        toDo={toDo}
+        markDone={markDone}
+        setUpdateData={setUpdateData}
+        deleteTask={deleteTask}
       />
-    ) : (
-      <AddTaskForm 
-        newTask={newTask}
-        setNewTask={setNewTask}
-        addTask={addTask}
-      />
-    )}
-
-    {/* Display ToDos */}
-
-    {toDo && toDo.length ? '' : 'No Tasks...'}
-
-    <ToDo
-      toDo={toDo}
-      markDone={markDone}
-      setUpdateData={setUpdateData}
-      deleteTask={deleteTask}
-    />  
 
     </div>
   );
